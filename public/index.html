@@ -6,9 +6,6 @@
   <title>Frugal AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,7 +15,7 @@
       --border: rgba(0,0,0,0.09); --border-2: rgba(0,0,0,0.16);
       --green: #1d9e75; --green-bg: #e1f5ee; --green-border: rgba(29,158,117,0.22);
       --red-bg: #fef0f0; --red: #c0392b; --blue: #2563eb;
-      --radius-sm: 6px; --radius-md: 8px; --radius-lg: 14px; --code-bg: #f6f8fa;
+      --radius-sm: 6px; --radius-md: 8px; --radius-lg: 14px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -26,35 +23,33 @@
         --text: #eeeee8; --text-2: #9a9a94; --text-3: #5e5e5a;
         --border: rgba(255,255,255,0.08); --border-2: rgba(255,255,255,0.15);
         --green: #5dcaa5; --green-bg: rgba(29,158,117,0.12); --green-border: rgba(29,158,117,0.25);
-        --red-bg: rgba(192,57,43,0.15); --red: #f09595; --blue: #60a5fa; --code-bg: #1e1e1c;
+        --red-bg: rgba(192,57,43,0.15); --red: #f09595; --blue: #60a5fa;
       }
-      #hljs-light { display: none; }
-      #hljs-dark { display: block !important; }
     }
     html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
     body { display: flex; flex-direction: column; align-items: center; }
     .shell { width: 100%; max-width: 780px; display: flex; flex-direction: column; height: 100vh; padding: 0 1rem; }
-    header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 0.75rem; border-bottom: 0.5px solid var(--border); flex-shrink: 0; gap: 12px; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 0.75rem; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-icon { width: 30px; height: 30px; border-radius: var(--radius-sm); background: var(--text); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .brand-icon { width: 30px; height: 30px; border-radius: var(--radius-sm); background: var(--text); display: flex; align-items: center; justify-content: center; }
     .brand-icon svg { width: 14px; height: 14px; stroke: var(--bg); fill: none; stroke-width: 2.5; stroke-linecap: round; }
     .brand-name { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
     .brand-tag { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; }
-    .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .savings-badge { display: flex; align-items: center; gap: 5px; background: var(--green-bg); border: 0.5px solid var(--green-border); border-radius: 999px; padding: 4px 10px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .savings-badge { display: flex; align-items: center; gap: 5px; background: var(--green-bg); border: 0.5px solid var(--green-border); border-radius: 999px; padding: 4px 10px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); }
     .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    .clear-btn { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); background: transparent; border: 0.5px solid var(--border-2); padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; transition: all .15s; }
+    .clear-btn { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); background: transparent; border: 0.5px solid var(--border-2); padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; }
     .clear-btn:hover { color: var(--text-2); }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px 0; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
     .stat { text-align: center; }
     .stat-val { font-size: 16px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
     .stat-val.green { color: var(--green); }
     .stat-lbl { font-size: 9px; color: var(--text-3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; margin-top: 1px; }
-    .messages { flex: 1; overflow-y: auto; padding: 1.25rem 0; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; }
+    .messages { flex: 1; overflow-y: auto; padding: 1.25rem 0; display: flex; flex-direction: column; gap: 20px; }
     .messages::-webkit-scrollbar { width: 3px; }
     .messages::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
-    .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-3); text-align: center; padding: 3rem 2rem; }
+    .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 3rem 2rem; }
     .empty-icon { font-size: 32px; opacity: .35; }
     .empty h2 { font-size: 20px; font-weight: 800; color: var(--text-2); letter-spacing: -0.02em; }
     .empty p { font-size: 13px; font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.7; max-width: 340px; color: var(--text-3); }
@@ -63,43 +58,32 @@
     .chip:hover { background: var(--bg-3); color: var(--text); }
     .msg { display: flex; flex-direction: column; }
     .msg.user { align-items: flex-end; }
-    .msg.assistant { align-items: flex-start; }
+    .msg.assistant { align-items: flex-start; width: 100%; }
     .bubble { padding: 10px 14px; border-radius: var(--radius-lg); font-size: 14px; line-height: 1.65; max-width: 88%; word-break: break-word; }
     .msg.user .bubble { background: var(--text); color: var(--bg); border-bottom-right-radius: 4px; font-family: 'DM Mono', monospace; font-size: 13px; white-space: pre-wrap; }
-    .msg.assistant .bubble { background: var(--bg-2); border: 0.5px solid var(--border); border-bottom-left-radius: 4px; max-width: 100%; width: 100%; }
+    .msg.assistant .bubble { background: var(--bg-2); border: 0.5px solid var(--border); border-bottom-left-radius: 4px; width: 100%; max-width: 100%; }
     .md-body { font-size: 14px; line-height: 1.75; color: var(--text); }
     .md-body p { margin-bottom: 10px; }
     .md-body p:last-child { margin-bottom: 0; }
-    .md-body h1, .md-body h2, .md-body h3 { font-weight: 700; letter-spacing: -0.01em; margin: 16px 0 8px; color: var(--text); }
+    .md-body h1, .md-body h2, .md-body h3 { font-weight: 700; margin: 14px 0 6px; }
     .md-body h1 { font-size: 18px; } .md-body h2 { font-size: 16px; } .md-body h3 { font-size: 14px; }
     .md-body ul, .md-body ol { padding-left: 1.4em; margin-bottom: 10px; }
     .md-body li { margin-bottom: 4px; }
-    .md-body a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
     .md-body strong { font-weight: 700; }
     .md-body em { font-style: italic; }
-    .md-body blockquote { border-left: 3px solid var(--border-2); padding-left: 12px; color: var(--text-2); margin: 10px 0; }
-    .md-body table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-    .md-body th, .md-body td { padding: 8px 12px; border: 0.5px solid var(--border-2); text-align: left; }
-    .md-body th { background: var(--bg-3); font-weight: 600; }
-    .md-body hr { border: none; border-top: 0.5px solid var(--border-2); margin: 16px 0; }
-    .md-body code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--code-bg); padding: 2px 5px; border-radius: 4px; }
-    .code-block { margin: 12px 0; border-radius: var(--radius-md); overflow: hidden; border: 0.5px solid var(--border-2); }
-    .code-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; background: var(--bg-3); border-bottom: 0.5px solid var(--border-2); }
-    .code-lang { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
-    .copy-code-btn { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); background: transparent; border: 0.5px solid var(--border-2); padding: 2px 8px; border-radius: 4px; cursor: pointer; }
-    .copy-code-btn:hover { color: var(--text-2); }
-    .code-block pre { margin: 0 !important; border-radius: 0 !important; }
-    .code-block pre code { font-size: 12px !important; line-height: 1.6 !important; padding: 14px !important; display: block !important; overflow-x: auto; background: var(--code-bg) !important; }
-    .preview-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--green); background: var(--green-bg); border: 0.5px solid var(--green-border); padding: 5px 10px; border-radius: var(--radius-sm); cursor: pointer; }
-    .preview-panel { margin-top: 10px; border: 0.5px solid var(--border-2); border-radius: var(--radius-md); overflow: hidden; width: 100%; }
-    .preview-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; background: var(--bg-3); border-bottom: 0.5px solid var(--border-2); }
-    .preview-label { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
-    .preview-close { font-size: 14px; color: var(--text-3); background: none; border: none; cursor: pointer; }
-    .preview-frame { width: 100%; height: 420px; border: none; background: white; }
+    .md-body code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--bg-3); padding: 2px 5px; border-radius: 4px; }
+    .md-body pre { display: none; }
+    .preview-card { margin-top: 10px; border: 0.5px solid var(--border-2); border-radius: var(--radius-md); overflow: hidden; width: 100%; }
+    .preview-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--bg-3); border-bottom: 0.5px solid var(--border-2); }
+    .preview-bar-left { display: flex; align-items: center; gap: 6px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); }
+    .preview-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .open-btn { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--green); background: var(--green-bg); border: 0.5px solid var(--green-border); padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; }
+    .open-btn:hover { opacity: .8; }
+    .preview-frame { width: 100%; height: 440px; border: none; background: white; display: block; }
     .msg-meta { display: flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); }
-    .opt-tag { background: var(--green-bg); color: var(--green); border-radius: 3px; padding: 1px 5px; font-size: 9px; font-weight: 600; letter-spacing: .04em; }
+    .opt-tag { background: var(--green-bg); color: var(--green); border-radius: 3px; padding: 1px 5px; font-size: 9px; font-weight: 600; }
     .saved-tag { color: var(--green); font-weight: 500; }
-    .typing-row { display: flex; align-items: center; gap: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); padding: 4px 0; }
+    .typing-row { display: flex; align-items: center; gap: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); padding: 6px 0; }
     .typing-dots { display: flex; gap: 3px; }
     .typing-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--text-3); animation: tdot 1.2s infinite; }
     .typing-dots span:nth-child(2) { animation-delay: .2s; }
@@ -111,7 +95,7 @@
     .input-wrap:focus-within { border-color: var(--text-3); }
     textarea { width: 100%; border: none; outline: none; background: transparent; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text); resize: none; line-height: 1.55; min-height: 22px; max-height: 160px; }
     textarea::placeholder { color: var(--text-3); font-style: italic; }
-    .send-btn { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--text); color: var(--bg); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s, transform .1s; align-self: flex-end; }
+    .send-btn { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--text); color: var(--bg); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s; align-self: flex-end; }
     .send-btn:hover { opacity: .8; }
     .send-btn:active { transform: scale(.96); }
     .send-btn:disabled { opacity: .3; cursor: not-allowed; }
@@ -119,12 +103,6 @@
     .hint { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-top: 6px; text-align: center; }
     .error-toast { background: var(--red-bg); color: var(--red); border-radius: var(--radius-md); padding: 9px 12px; font-size: 12px; font-family: 'DM Mono', monospace; display: none; margin-bottom: 8px; }
     .error-toast.visible { display: block; }
-    details { margin-top: 5px; }
-    details summary { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px; user-select: none; }
-    details summary::-webkit-details-marker { display: none; }
-    details summary::before { content: '▶'; font-size: 8px; transition: transform .15s; }
-    details[open] summary::before { transform: rotate(90deg); }
-    .opt-preview { margin-top: 5px; padding: 8px 10px; background: var(--bg-3); border-radius: var(--radius-sm); font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-2); line-height: 1.6; max-width: 88%; }
   </style>
 </head>
 <body>
@@ -144,18 +122,16 @@
       <button class="clear-btn" onclick="clearChat()">clear</button>
     </div>
   </header>
-
   <div class="stats">
     <div class="stat"><div class="stat-val" id="statSent">0</div><div class="stat-lbl">tokens sent</div></div>
     <div class="stat"><div class="stat-val green" id="statSaved">0</div><div class="stat-lbl">tokens saved</div></div>
     <div class="stat"><div class="stat-val" id="statMsgs">0</div><div class="stat-lbl">messages</div></div>
   </div>
-
   <div class="messages" id="messages">
     <div class="empty" id="emptyState">
       <div class="empty-icon">⚡</div>
       <h2>Frugal AI</h2>
-      <p>A full AI assistant powered by Claude Sonnet. Ask anything — it auto-compresses your prompts to save money.</p>
+      <p>A full AI assistant powered by Claude Sonnet. Ask anything — websites show up as live previews you can open.</p>
       <div class="suggestion-chips">
         <div class="chip" onclick="suggest('Build me a beautiful landing page for a coffee shop with a menu, hero section, and contact form')">build a website</div>
         <div class="chip" onclick="suggest('Write a Python script to rename all files in a folder by adding todays date as a prefix')">write code</div>
@@ -164,7 +140,6 @@
       </div>
     </div>
   </div>
-
   <div class="input-area">
     <div class="error-toast" id="errorToast"></div>
     <div class="input-row">
@@ -178,34 +153,18 @@
     <div class="hint">Enter to send · Shift+Enter for new line</div>
   </div>
 </div>
-
 <script>
   const PROXY = '/api/chat';
   const MAIN_MODEL = 'claude-sonnet-4-5';
   const OPT_MODEL = 'claude-haiku-4-5-20251001';
-
   let totalSent = 0, totalSaved = 0, msgCount = 0;
   let history = [];
   let busy = false;
-
   marked.setOptions({ breaks: true, gfm: true });
-
   function tok(str) { return Math.max(1, Math.round(str.length / 4)); }
-
-  function autoResize(el) {
-    el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
-  }
-
-  function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  }
-
-  function scrollBottom() {
-    const m = document.getElementById('messages');
-    setTimeout(() => m.scrollTop = m.scrollHeight, 50);
-  }
-
+  function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 160) + 'px'; }
+  function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+  function scrollBottom() { const m = document.getElementById('messages'); setTimeout(() => m.scrollTop = m.scrollHeight, 80); }
   function updateStats() {
     document.getElementById('statSent').textContent = totalSent;
     document.getElementById('statSaved').textContent = totalSaved;
@@ -213,133 +172,94 @@
     const total = totalSent + totalSaved;
     document.getElementById('pctSaved').textContent = (total > 0 ? Math.round(totalSaved / total * 100) : 0) + '%';
   }
-
   function showError(msg) {
     const t = document.getElementById('errorToast');
     t.textContent = 'Error: ' + msg;
     t.classList.add('visible');
     setTimeout(() => t.classList.remove('visible'), 6000);
   }
-
-  function removeEmpty() {
-    const e = document.getElementById('emptyState');
-    if (e) e.remove();
-  }
-
-  function suggest(text) {
-    document.getElementById('userInput').value = text;
-    autoResize(document.getElementById('userInput'));
-    sendMessage();
-  }
-
+  function removeEmpty() { const e = document.getElementById('emptyState'); if (e) e.remove(); }
+  function suggest(text) { document.getElementById('userInput').value = text; autoResize(document.getElementById('userInput')); sendMessage(); }
   function clearChat() {
     history = []; totalSent = 0; totalSaved = 0; msgCount = 0;
     updateStats();
     document.getElementById('messages').innerHTML = `<div class="empty" id="emptyState">
-      <div class="empty-icon">⚡</div>
-      <h2>Frugal AI</h2>
-      <p>A full AI assistant powered by Claude Sonnet. Ask anything — it auto-compresses your prompts to save money.</p>
+      <div class="empty-icon">⚡</div><h2>Frugal AI</h2>
+      <p>A full AI assistant powered by Claude Sonnet. Ask anything — websites show up as live previews you can open.</p>
       <div class="suggestion-chips">
         <div class="chip" onclick="suggest('Build me a beautiful landing page for a coffee shop with a menu, hero section, and contact form')">build a website</div>
         <div class="chip" onclick="suggest('Write a Python script to rename all files in a folder by adding todays date as a prefix')">write code</div>
         <div class="chip" onclick="suggest('Explain how neural networks work like im 16')">explain something</div>
         <div class="chip" onclick="suggest('Help me write a professional email declining a job offer politely')">write an email</div>
-      </div>
-    </div>`;
+      </div></div>`;
   }
-
-  function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function escHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function extractHtml(text) {
+    const match = text.match(/```html([\s\S]*?)```/i);
+    if (match) return match[1].trim();
+    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) return text.trim();
+    return null;
   }
-
-  function renderMarkdown(text) {
-    const html = marked.parse(text);
-    const div = document.createElement('div');
-    div.className = 'md-body';
-    div.innerHTML = html;
-
-    div.querySelectorAll('pre code').forEach(el => {
-      const lang = (el.className.replace('language-','') || 'code').toLowerCase();
-      const code = el.textContent;
-
-      const wrapper = document.createElement('div');
-      wrapper.className = 'code-block';
-
-      const header = document.createElement('div');
-      header.className = 'code-header';
-
-      const langLabel = document.createElement('span');
-      langLabel.className = 'code-lang';
-      langLabel.textContent = lang;
-
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'copy-code-btn';
-      copyBtn.textContent = 'copy';
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(code).then(() => {
-          copyBtn.textContent = 'copied!';
-          setTimeout(() => copyBtn.textContent = 'copy', 1500);
-        });
-      };
-
-      header.appendChild(langLabel);
-      header.appendChild(copyBtn);
-
-      const pre = el.parentElement.cloneNode(true);
-      try { hljs.highlightElement(pre.querySelector('code')); } catch(e) {}
-
-      wrapper.appendChild(header);
-      wrapper.appendChild(pre);
-
-      if (lang === 'html') {
-        const prevBtn = document.createElement('button');
-        prevBtn.className = 'preview-btn';
-        prevBtn.textContent = '▶ preview in browser';
-        prevBtn.onclick = () => showPreview(code, prevBtn, wrapper);
-        wrapper.appendChild(prevBtn);
+  function stripCodeBlocks(text) { return text.replace(/```[\s\S]*?```/g, '').trim(); }
+  function openInNewTab(html) {
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  }
+  function renderResponse(text, saved, optTok) {
+    const htmlCode = extractHtml(text);
+    const m = document.getElementById('messages');
+    const d = document.createElement('div');
+    d.className = 'msg assistant';
+    if (htmlCode) {
+      const textPart = stripCodeBlocks(text);
+      if (textPart) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const mdDiv = document.createElement('div');
+        mdDiv.className = 'md-body';
+        mdDiv.innerHTML = marked.parse(textPart);
+        bubble.appendChild(mdDiv);
+        d.appendChild(bubble);
       }
-
-      el.parentElement.replaceWith(wrapper);
-    });
-
-    return div;
-  }
-
-  function showPreview(htmlCode, btn, wrapper) {
-    const existing = wrapper.querySelector('.preview-panel');
-    if (existing) { existing.remove(); btn.textContent = '▶ preview in browser'; return; }
-
-    const panel = document.createElement('div');
-    panel.className = 'preview-panel';
-
-    const ph = document.createElement('div');
-    ph.className = 'preview-header';
-
-    const pl = document.createElement('span');
-    pl.className = 'preview-label';
-    pl.textContent = 'live preview';
-
-    const cb = document.createElement('button');
-    cb.className = 'preview-close';
-    cb.textContent = '✕';
-    cb.onclick = () => { panel.remove(); btn.textContent = '▶ preview in browser'; };
-
-    ph.appendChild(pl);
-    ph.appendChild(cb);
-
-    const frame = document.createElement('iframe');
-    frame.className = 'preview-frame';
-    frame.sandbox = 'allow-scripts allow-same-origin';
-
-    panel.appendChild(ph);
-    panel.appendChild(frame);
-    wrapper.appendChild(panel);
-    btn.textContent = '◼ hide preview';
-
-    frame.srcdoc = htmlCode;
+      const card = document.createElement('div');
+      card.className = 'preview-card';
+      const bar = document.createElement('div');
+      bar.className = 'preview-bar';
+      const left = document.createElement('div');
+      left.className = 'preview-bar-left';
+      left.innerHTML = `<span class="preview-dot"></span><span>live preview</span>`;
+      const openBtn = document.createElement('button');
+      openBtn.className = 'open-btn';
+      openBtn.textContent = '↗ open in new tab';
+      openBtn.onclick = () => openInNewTab(htmlCode);
+      bar.appendChild(left);
+      bar.appendChild(openBtn);
+      const frame = document.createElement('iframe');
+      frame.className = 'preview-frame';
+      frame.sandbox = 'allow-scripts allow-same-origin';
+      frame.srcdoc = htmlCode;
+      card.appendChild(bar);
+      card.appendChild(frame);
+      d.appendChild(card);
+    } else {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      const mdDiv = document.createElement('div');
+      mdDiv.className = 'md-body';
+      mdDiv.innerHTML = marked.parse(text);
+      bubble.appendChild(mdDiv);
+      d.appendChild(bubble);
+    }
+    const meta = document.createElement('div');
+    meta.className = 'msg-meta';
+    if (saved > 0) meta.innerHTML += `<span class="opt-tag">optimized</span>`;
+    meta.innerHTML += `<span>${optTok} tokens</span>`;
+    if (saved > 0) meta.innerHTML += `<span class="saved-tag">↓ saved ${saved}</span>`;
+    d.appendChild(meta);
+    m.appendChild(d);
     scrollBottom();
   }
-
   function addUserMsg(text) {
     removeEmpty();
     const m = document.getElementById('messages');
@@ -349,7 +269,6 @@
     m.appendChild(d);
     scrollBottom();
   }
-
   function addTyping(id, label) {
     removeEmpty();
     const m = document.getElementById('messages');
@@ -360,97 +279,52 @@
     m.appendChild(d);
     scrollBottom();
   }
-
   function removeEl(id) { const e = document.getElementById(id); if (e) e.remove(); }
-
-  function addAssistantMsg(answer, optimized, rawTok, optTok) {
-    const m = document.getElementById('messages');
-    const saved = Math.max(0, rawTok - optTok);
-    const d = document.createElement('div');
-    d.className = 'msg assistant';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.appendChild(renderMarkdown(answer));
-
-    const meta = document.createElement('div');
-    meta.className = 'msg-meta';
-    if (saved > 0) meta.innerHTML += `<span class="opt-tag">optimized</span>`;
-    meta.innerHTML += `<span>${optTok} tokens</span>`;
-    if (saved > 0) meta.innerHTML += `<span class="saved-tag">↓ saved ${saved}</span>`;
-
-    d.appendChild(bubble);
-    d.appendChild(meta);
-
-    if (saved > 0 && optimized) {
-      const det = document.createElement('details');
-      det.innerHTML = `<summary>see optimized prompt</summary><div class="opt-preview">${escHtml(optimized)}</div>`;
-      d.appendChild(det);
-    }
-
-    m.appendChild(d);
-    scrollBottom();
-  }
-
   async function callProxy(model, system, messages, maxTokens) {
     const body = { model, max_tokens: maxTokens, messages };
     if (system) body.system = system;
-    const r = await fetch(PROXY, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!r.ok) {
-      const err = await r.json().catch(() => ({}));
-      throw new Error(err.error?.message || `HTTP ${r.status}`);
-    }
+    const r = await fetch(PROXY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) { const err = await r.json().catch(() => ({})); throw new Error(err.error?.message || `HTTP ${r.status}`); }
     const data = await r.json();
     return data.content?.find(b => b.type === 'text')?.text || '';
   }
-
   async function sendMessage() {
     if (busy) return;
     const inp = document.getElementById('userInput');
     const raw = inp.value.trim();
     if (!raw) return;
-
     busy = true;
     inp.value = '';
     inp.style.height = 'auto';
     document.getElementById('sendBtn').disabled = true;
-
     const rawTok = tok(raw);
     addUserMsg(raw);
     msgCount++;
-
     addTyping('think-opt', 'optimizing prompt...');
-
     let optimized = raw, optTok = rawTok;
     try {
       const optSys = `You are a prompt optimizer. Compress the user's message into the most token-efficient version preserving ALL meaning, intent, and technical details. Remove filler, hedging, repetition. Be direct and imperative. If already concise, return it unchanged. Return ONLY the optimized prompt — no explanation.`;
       const res = (await callProxy(OPT_MODEL, optSys, [{role:'user',content:raw}], 300)).trim();
       if (res) { optimized = res; optTok = tok(optimized); }
     } catch(e) {}
-
     removeEl('think-opt');
-
     const saved = Math.max(0, rawTok - optTok);
     totalSaved += saved;
     totalSent += optTok;
     updateStats();
-
     history.push({ role: 'user', content: optimized });
     addTyping('think-ans', 'thinking...');
-
     let answer = '';
     try {
-      const mainSys = `You are an expert full-stack developer, designer, and AI assistant. You can build complete websites, write production-ready code in any language, explain complex topics clearly, and help with any task.
+      const mainSys = `You are an expert full-stack developer, designer, and AI assistant.
 
-When building websites or UIs: write complete, self-contained HTML with embedded CSS and JS. Make designs modern, beautiful, and responsive. Include all functionality.
+When the user asks you to build a website, app, or any UI: always respond with a SINGLE complete self-contained HTML file wrapped in \`\`\`html code fences. The HTML must include all CSS and JS inline. Make it beautiful, modern, and fully functional.
 
-When writing code: write complete working code with no placeholders or TODOs. Follow best practices.
+When writing other code (Python, JS, etc): wrap it in the appropriate code fence.
 
-Always be thorough. If asked to build something, build the whole thing.`;
+For non-code questions: answer clearly and helpfully in plain text.
+
+Never leave placeholders or TODOs. Always build the complete thing.`;
       answer = await callProxy(MAIN_MODEL, mainSys, history, 4096);
       history.push({ role: 'assistant', content: answer });
     } catch(e) {
@@ -458,10 +332,8 @@ Always be thorough. If asked to build something, build the whole thing.`;
       showError(e.message);
       history.pop();
     }
-
     removeEl('think-ans');
-    addAssistantMsg(answer, optimized !== raw ? optimized : null, rawTok, optTok);
-
+    renderResponse(answer, saved, optTok);
     busy = false;
     document.getElementById('sendBtn').disabled = false;
     inp.focus();
