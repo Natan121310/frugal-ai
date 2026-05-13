@@ -1,0 +1,6 @@
+{
+  "name": "frugal-ai",
+  "version": "1.0.0",
+  "description": "AI chat that auto-optimizes prompts to save money",
+  "engines": { "node": ">=18" }
+}
