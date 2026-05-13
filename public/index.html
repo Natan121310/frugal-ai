@@ -6,344 +6,129 @@
   <title>Frugal AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #ffffff;
-      --bg-2: #f5f5f3;
-      --bg-3: #efefed;
-      --text: #1a1a18;
-      --text-2: #6b6b67;
-      --text-3: #9e9e9a;
-      --border: rgba(0,0,0,0.1);
-      --border-2: rgba(0,0,0,0.18);
-      --green: #1d9e75;
-      --green-bg: #e1f5ee;
-      --green-border: rgba(29,158,117,0.25);
-      --red-bg: #fcebeb;
-      --red: #a32d2d;
-      --radius-md: 8px;
-      --radius-lg: 12px;
+      --bg: #ffffff; --bg-2: #f6f6f4; --bg-3: #ececea;
+      --text: #1a1a18; --text-2: #5a5a56; --text-3: #9a9a96;
+      --border: rgba(0,0,0,0.09); --border-2: rgba(0,0,0,0.16);
+      --green: #1d9e75; --green-bg: #e1f5ee; --green-border: rgba(29,158,117,0.22);
+      --red-bg: #fef0f0; --red: #c0392b; --blue: #2563eb;
+      --radius-sm: 6px; --radius-md: 8px; --radius-lg: 14px; --code-bg: #f6f8fa;
     }
-
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1c1c1a;
-        --bg-2: #252523;
-        --bg-3: #2e2e2b;
-        --text: #f0f0ec;
-        --text-2: #a0a09a;
-        --text-3: #6a6a64;
-        --border: rgba(255,255,255,0.1);
-        --border-2: rgba(255,255,255,0.18);
-        --green: #5dcaa5;
-        --green-bg: rgba(29,158,117,0.15);
-        --green-border: rgba(29,158,117,0.3);
-        --red-bg: rgba(163,45,45,0.18);
-        --red: #f09595;
+        --bg: #181816; --bg-2: #222220; --bg-3: #2a2a28;
+        --text: #eeeee8; --text-2: #9a9a94; --text-3: #5e5e5a;
+        --border: rgba(255,255,255,0.08); --border-2: rgba(255,255,255,0.15);
+        --green: #5dcaa5; --green-bg: rgba(29,158,117,0.12); --green-border: rgba(29,158,117,0.25);
+        --red-bg: rgba(192,57,43,0.15); --red: #f09595; --blue: #60a5fa; --code-bg: #1e1e1c;
       }
+      #hljs-light { display: none; }
+      #hljs-dark { display: block !important; }
     }
-
     html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
-
-    body { display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-
-    .shell {
-      width: 100%;
-      max-width: 720px;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      padding: 0 1rem;
-    }
-
-    /* ── Header ── */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 0 1rem;
-      border-bottom: 0.5px solid var(--border);
-      flex-shrink: 0;
-    }
-
+    body { display: flex; flex-direction: column; align-items: center; }
+    .shell { width: 100%; max-width: 780px; display: flex; flex-direction: column; height: 100vh; padding: 0 1rem; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0 0.75rem; border-bottom: 0.5px solid var(--border); flex-shrink: 0; gap: 12px; }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-icon {
-      width: 32px; height: 32px;
-      border-radius: var(--radius-md);
-      background: var(--text);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .brand-icon svg { width: 16px; height: 16px; stroke: var(--bg); fill: none; stroke-width: 2; stroke-linecap: round; }
-    .brand-name { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
-    .brand-tag { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-top: 1px; }
-
-    .savings-badge {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--green-bg);
-      border: 0.5px solid var(--green-border);
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-family: 'DM Mono', monospace;
-      font-weight: 500;
-      color: var(--green);
-    }
-
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .brand-icon { width: 30px; height: 30px; border-radius: var(--radius-sm); background: var(--text); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .brand-icon svg { width: 14px; height: 14px; stroke: var(--bg); fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .brand-name { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand-tag { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; }
+    .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .savings-badge { display: flex; align-items: center; gap: 5px; background: var(--green-bg); border: 0.5px solid var(--green-border); border-radius: 999px; padding: 4px 10px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--green); white-space: nowrap; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-    /* ── Stats bar ── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      padding: 12px 0;
-      border-bottom: 0.5px solid var(--border);
-      flex-shrink: 0;
-    }
-
+    .clear-btn { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); background: transparent; border: 0.5px solid var(--border-2); padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; transition: all .15s; }
+    .clear-btn:hover { color: var(--text-2); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px 0; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
     .stat { text-align: center; }
-    .stat-val { font-size: 18px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+    .stat-val { font-size: 16px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
     .stat-val.green { color: var(--green); }
-    .stat-lbl { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
-
-    /* ── Messages ── */
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1.25rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      scroll-behavior: smooth;
-    }
-
-    .messages::-webkit-scrollbar { width: 4px; }
-    .messages::-webkit-scrollbar-track { background: transparent; }
-    .messages::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
-
-    .empty {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: var(--text-3);
-      text-align: center;
-      padding: 3rem 2rem;
-    }
-
-    .empty-icon { font-size: 36px; opacity: .4; }
-    .empty h2 { font-size: 18px; font-weight: 700; color: var(--text-2); }
-    .empty p { font-size: 13px; font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.7; max-width: 320px; }
-
-    /* Message rows */
+    .stat-lbl { font-size: 9px; color: var(--text-3); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; margin-top: 1px; }
+    .messages { flex: 1; overflow-y: auto; padding: 1.25rem 0; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; }
+    .messages::-webkit-scrollbar { width: 3px; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+    .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-3); text-align: center; padding: 3rem 2rem; }
+    .empty-icon { font-size: 32px; opacity: .35; }
+    .empty h2 { font-size: 20px; font-weight: 800; color: var(--text-2); letter-spacing: -0.02em; }
+    .empty p { font-size: 13px; font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.7; max-width: 340px; color: var(--text-3); }
+    .suggestion-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+    .chip { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text-2); background: var(--bg-2); border: 0.5px solid var(--border-2); padding: 6px 12px; border-radius: 999px; cursor: pointer; transition: all .15s; }
+    .chip:hover { background: var(--bg-3); color: var(--text); }
     .msg { display: flex; flex-direction: column; }
     .msg.user { align-items: flex-end; }
     .msg.assistant { align-items: flex-start; }
-
-    .bubble {
-      padding: 10px 14px;
-      border-radius: var(--radius-lg);
-      font-size: 14px;
-      line-height: 1.65;
-      max-width: 85%;
-      word-break: break-word;
-      white-space: pre-wrap;
-    }
-
-    .msg.user .bubble {
-      background: var(--text);
-      color: var(--bg);
-      border-bottom-right-radius: 4px;
-    }
-
-    .msg.assistant .bubble {
-      background: var(--bg-2);
-      color: var(--text);
-      border: 0.5px solid var(--border);
-      border-bottom-left-radius: 4px;
-    }
-
-    .msg-meta {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 4px;
-      font-size: 10px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-3);
-    }
-
-    .opt-tag {
-      background: var(--green-bg);
-      color: var(--green);
-      border-radius: 3px;
-      padding: 1px 5px;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .04em;
-    }
-
+    .bubble { padding: 10px 14px; border-radius: var(--radius-lg); font-size: 14px; line-height: 1.65; max-width: 88%; word-break: break-word; }
+    .msg.user .bubble { background: var(--text); color: var(--bg); border-bottom-right-radius: 4px; font-family: 'DM Mono', monospace; font-size: 13px; white-space: pre-wrap; }
+    .msg.assistant .bubble { background: var(--bg-2); border: 0.5px solid var(--border); border-bottom-left-radius: 4px; max-width: 100%; width: 100%; }
+    .md-body { font-size: 14px; line-height: 1.75; color: var(--text); }
+    .md-body p { margin-bottom: 10px; }
+    .md-body p:last-child { margin-bottom: 0; }
+    .md-body h1, .md-body h2, .md-body h3 { font-weight: 700; letter-spacing: -0.01em; margin: 16px 0 8px; color: var(--text); }
+    .md-body h1 { font-size: 18px; } .md-body h2 { font-size: 16px; } .md-body h3 { font-size: 14px; }
+    .md-body ul, .md-body ol { padding-left: 1.4em; margin-bottom: 10px; }
+    .md-body li { margin-bottom: 4px; }
+    .md-body a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+    .md-body strong { font-weight: 700; }
+    .md-body em { font-style: italic; }
+    .md-body blockquote { border-left: 3px solid var(--border-2); padding-left: 12px; color: var(--text-2); margin: 10px 0; }
+    .md-body table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+    .md-body th, .md-body td { padding: 8px 12px; border: 0.5px solid var(--border-2); text-align: left; }
+    .md-body th { background: var(--bg-3); font-weight: 600; }
+    .md-body hr { border: none; border-top: 0.5px solid var(--border-2); margin: 16px 0; }
+    .md-body code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--code-bg); padding: 2px 5px; border-radius: 4px; }
+    .code-block { margin: 12px 0; border-radius: var(--radius-md); overflow: hidden; border: 0.5px solid var(--border-2); }
+    .code-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; background: var(--bg-3); border-bottom: 0.5px solid var(--border-2); }
+    .code-lang { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+    .copy-code-btn { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); background: transparent; border: 0.5px solid var(--border-2); padding: 2px 8px; border-radius: 4px; cursor: pointer; }
+    .copy-code-btn:hover { color: var(--text-2); }
+    .code-block pre { margin: 0 !important; border-radius: 0 !important; }
+    .code-block pre code { font-size: 12px !important; line-height: 1.6 !important; padding: 14px !important; display: block !important; overflow-x: auto; background: var(--code-bg) !important; }
+    .preview-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--green); background: var(--green-bg); border: 0.5px solid var(--green-border); padding: 5px 10px; border-radius: var(--radius-sm); cursor: pointer; }
+    .preview-panel { margin-top: 10px; border: 0.5px solid var(--border-2); border-radius: var(--radius-md); overflow: hidden; width: 100%; }
+    .preview-header { display: flex; align-items: center; justify-content: space-between; padding: 7px 12px; background: var(--bg-3); border-bottom: 0.5px solid var(--border-2); }
+    .preview-label { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+    .preview-close { font-size: 14px; color: var(--text-3); background: none; border: none; cursor: pointer; }
+    .preview-frame { width: 100%; height: 420px; border: none; background: white; }
+    .msg-meta { display: flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); }
+    .opt-tag { background: var(--green-bg); color: var(--green); border-radius: 3px; padding: 1px 5px; font-size: 9px; font-weight: 600; letter-spacing: .04em; }
     .saved-tag { color: var(--green); font-weight: 500; }
-
-    .step-label {
-      font-size: 10px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-3);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Typing indicator */
-    .typing {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 0;
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-3);
-    }
-
+    .typing-row { display: flex; align-items: center; gap: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); padding: 4px 0; }
     .typing-dots { display: flex; gap: 3px; }
-    .typing-dots span {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--text-3);
-      animation: tdot 1.2s infinite;
-    }
+    .typing-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--text-3); animation: tdot 1.2s infinite; }
     .typing-dots span:nth-child(2) { animation-delay: .2s; }
     .typing-dots span:nth-child(3) { animation-delay: .4s; }
     @keyframes tdot { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
-
-    /* ── Input area ── */
-    .input-area {
-      flex-shrink: 0;
-      padding: 12px 0 1.25rem;
-      border-top: 0.5px solid var(--border);
-    }
-
+    .input-area { flex-shrink: 0; padding: 10px 0 1.25rem; border-top: 0.5px solid var(--border); }
     .input-row { display: flex; gap: 8px; align-items: flex-end; }
-
-    .input-wrap {
-      flex: 1;
-      background: var(--bg);
-      border: 0.5px solid var(--border-2);
-      border-radius: var(--radius-lg);
-      padding: 10px 14px;
-      transition: border-color .15s;
-    }
-
+    .input-wrap { flex: 1; background: var(--bg); border: 0.5px solid var(--border-2); border-radius: var(--radius-lg); padding: 10px 14px; transition: border-color .15s; }
     .input-wrap:focus-within { border-color: var(--text-3); }
-
-    textarea {
-      width: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      color: var(--text);
-      resize: none;
-      line-height: 1.55;
-      min-height: 20px;
-      max-height: 120px;
-    }
-
+    textarea { width: 100%; border: none; outline: none; background: transparent; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text); resize: none; line-height: 1.55; min-height: 22px; max-height: 160px; }
     textarea::placeholder { color: var(--text-3); font-style: italic; }
-
-    .send-btn {
-      width: 40px; height: 40px;
-      border-radius: var(--radius-md);
-      background: var(--text);
-      color: var(--bg);
-      border: none;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: opacity .15s, transform .1s;
-      align-self: flex-end;
-    }
-
+    .send-btn { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--text); color: var(--bg); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s, transform .1s; align-self: flex-end; }
     .send-btn:hover { opacity: .8; }
     .send-btn:active { transform: scale(.96); }
     .send-btn:disabled { opacity: .3; cursor: not-allowed; }
-
-    .send-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
-    .hint {
-      font-size: 10px;
-      color: var(--text-3);
-      font-family: 'DM Mono', monospace;
-      margin-top: 8px;
-      text-align: center;
-    }
-
-    /* ── Error toast ── */
-    .error-toast {
-      background: var(--red-bg);
-      color: var(--red);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 12px;
-      font-family: 'DM Mono', monospace;
-      line-height: 1.5;
-      display: none;
-      margin-bottom: 8px;
-    }
-
+    .send-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .hint { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-top: 6px; text-align: center; }
+    .error-toast { background: var(--red-bg); color: var(--red); border-radius: var(--radius-md); padding: 9px 12px; font-size: 12px; font-family: 'DM Mono', monospace; display: none; margin-bottom: 8px; }
     .error-toast.visible { display: block; }
-
-    /* ── Optimized prompt pill (expandable) ── */
-    details {
-      margin-top: 4px;
-    }
-
-    details summary {
-      font-size: 10px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-3);
-      cursor: pointer;
-      list-style: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      user-select: none;
-    }
-
+    details { margin-top: 5px; }
+    details summary { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 4px; user-select: none; }
     details summary::-webkit-details-marker { display: none; }
-
-    details summary::before {
-      content: '▶';
-      font-size: 8px;
-      transition: transform .15s;
-    }
-
+    details summary::before { content: '▶'; font-size: 8px; transition: transform .15s; }
     details[open] summary::before { transform: rotate(90deg); }
-
-    .opt-preview {
-      margin-top: 6px;
-      padding: 8px 10px;
-      background: var(--bg-3);
-      border-radius: var(--radius-md);
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-2);
-      line-height: 1.6;
-      max-width: 85%;
-    }
+    .opt-preview { margin-top: 5px; padding: 8px 10px; background: var(--bg-3); border-radius: var(--radius-sm); font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-2); line-height: 1.6; max-width: 88%; }
   </style>
 </head>
 <body>
-
 <div class="shell">
-
   <header>
     <div class="brand">
       <div class="brand-icon">
@@ -351,35 +136,32 @@
       </div>
       <div>
         <div class="brand-name">Frugal AI</div>
-        <div class="brand-tag">auto-optimizes every prompt</div>
+        <div class="brand-tag">powered by claude sonnet 4.5</div>
       </div>
     </div>
-    <div class="savings-badge">
-      <span class="dot"></span>
-      <span id="pctSaved">0%</span> saved
+    <div class="header-right">
+      <div class="savings-badge"><span class="dot"></span><span id="pctSaved">0%</span> saved</div>
+      <button class="clear-btn" onclick="clearChat()">clear</button>
     </div>
   </header>
 
   <div class="stats">
-    <div class="stat">
-      <div class="stat-val" id="statSent">0</div>
-      <div class="stat-lbl">tokens sent</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val green" id="statSaved">0</div>
-      <div class="stat-lbl">tokens saved</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val" id="statMsgs">0</div>
-      <div class="stat-lbl">messages</div>
-    </div>
+    <div class="stat"><div class="stat-val" id="statSent">0</div><div class="stat-lbl">tokens sent</div></div>
+    <div class="stat"><div class="stat-val green" id="statSaved">0</div><div class="stat-lbl">tokens saved</div></div>
+    <div class="stat"><div class="stat-val" id="statMsgs">0</div><div class="stat-lbl">messages</div></div>
   </div>
 
   <div class="messages" id="messages">
     <div class="empty" id="emptyState">
       <div class="empty-icon">⚡</div>
-      <h2>Talk naturally.</h2>
-      <p>Frugal AI compresses every message before sending to Claude — same answers, fewer tokens, lower cost.</p>
+      <h2>Frugal AI</h2>
+      <p>A full AI assistant powered by Claude Sonnet. Ask anything — it auto-compresses your prompts to save money.</p>
+      <div class="suggestion-chips">
+        <div class="chip" onclick="suggest('Build me a beautiful landing page for a coffee shop with a menu, hero section, and contact form')">build a website</div>
+        <div class="chip" onclick="suggest('Write a Python script to rename all files in a folder by adding todays date as a prefix')">write code</div>
+        <div class="chip" onclick="suggest('Explain how neural networks work like im 16')">explain something</div>
+        <div class="chip" onclick="suggest('Help me write a professional email declining a job offer politely')">write an email</div>
+      </div>
     </div>
   </div>
 
@@ -387,13 +169,7 @@
     <div class="error-toast" id="errorToast"></div>
     <div class="input-row">
       <div class="input-wrap">
-        <textarea
-          id="userInput"
-          placeholder="Just ramble... I'll compress it before sending to Claude."
-          rows="1"
-          onkeydown="handleKey(event)"
-          oninput="autoResize(this)"
-        ></textarea>
+        <textarea id="userInput" placeholder="Ask anything — build websites, write code, explain stuff..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       </div>
       <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send">
         <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
@@ -401,22 +177,24 @@
     </div>
     <div class="hint">Enter to send · Shift+Enter for new line</div>
   </div>
-
 </div>
 
 <script>
   const PROXY = '/api/chat';
-  const MODEL = 'claude-haiku-4-5-20251001';
+  const MAIN_MODEL = 'claude-sonnet-4-5';
+  const OPT_MODEL = 'claude-haiku-4-5-20251001';
 
   let totalSent = 0, totalSaved = 0, msgCount = 0;
   let history = [];
   let busy = false;
 
-  function tok(str) { return Math.round(str.length / 4); }
+  marked.setOptions({ breaks: true, gfm: true });
+
+  function tok(str) { return Math.max(1, Math.round(str.length / 4)); }
 
   function autoResize(el) {
     el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
   }
 
   function handleKey(e) {
@@ -425,7 +203,7 @@
 
   function scrollBottom() {
     const m = document.getElementById('messages');
-    m.scrollTop = m.scrollHeight;
+    setTimeout(() => m.scrollTop = m.scrollHeight, 50);
   }
 
   function updateStats() {
@@ -433,20 +211,133 @@
     document.getElementById('statSaved').textContent = totalSaved;
     document.getElementById('statMsgs').textContent = msgCount;
     const total = totalSent + totalSaved;
-    const pct = total > 0 ? Math.round(totalSaved / total * 100) : 0;
-    document.getElementById('pctSaved').textContent = pct + '%';
+    document.getElementById('pctSaved').textContent = (total > 0 ? Math.round(totalSaved / total * 100) : 0) + '%';
   }
 
   function showError(msg) {
     const t = document.getElementById('errorToast');
-    t.textContent = '⚠ ' + msg;
+    t.textContent = 'Error: ' + msg;
     t.classList.add('visible');
-    setTimeout(() => t.classList.remove('visible'), 5000);
+    setTimeout(() => t.classList.remove('visible'), 6000);
   }
 
   function removeEmpty() {
     const e = document.getElementById('emptyState');
     if (e) e.remove();
+  }
+
+  function suggest(text) {
+    document.getElementById('userInput').value = text;
+    autoResize(document.getElementById('userInput'));
+    sendMessage();
+  }
+
+  function clearChat() {
+    history = []; totalSent = 0; totalSaved = 0; msgCount = 0;
+    updateStats();
+    document.getElementById('messages').innerHTML = `<div class="empty" id="emptyState">
+      <div class="empty-icon">⚡</div>
+      <h2>Frugal AI</h2>
+      <p>A full AI assistant powered by Claude Sonnet. Ask anything — it auto-compresses your prompts to save money.</p>
+      <div class="suggestion-chips">
+        <div class="chip" onclick="suggest('Build me a beautiful landing page for a coffee shop with a menu, hero section, and contact form')">build a website</div>
+        <div class="chip" onclick="suggest('Write a Python script to rename all files in a folder by adding todays date as a prefix')">write code</div>
+        <div class="chip" onclick="suggest('Explain how neural networks work like im 16')">explain something</div>
+        <div class="chip" onclick="suggest('Help me write a professional email declining a job offer politely')">write an email</div>
+      </div>
+    </div>`;
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderMarkdown(text) {
+    const html = marked.parse(text);
+    const div = document.createElement('div');
+    div.className = 'md-body';
+    div.innerHTML = html;
+
+    div.querySelectorAll('pre code').forEach(el => {
+      const lang = (el.className.replace('language-','') || 'code').toLowerCase();
+      const code = el.textContent;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block';
+
+      const header = document.createElement('div');
+      header.className = 'code-header';
+
+      const langLabel = document.createElement('span');
+      langLabel.className = 'code-lang';
+      langLabel.textContent = lang;
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-code-btn';
+      copyBtn.textContent = 'copy';
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(code).then(() => {
+          copyBtn.textContent = 'copied!';
+          setTimeout(() => copyBtn.textContent = 'copy', 1500);
+        });
+      };
+
+      header.appendChild(langLabel);
+      header.appendChild(copyBtn);
+
+      const pre = el.parentElement.cloneNode(true);
+      try { hljs.highlightElement(pre.querySelector('code')); } catch(e) {}
+
+      wrapper.appendChild(header);
+      wrapper.appendChild(pre);
+
+      if (lang === 'html') {
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'preview-btn';
+        prevBtn.textContent = '▶ preview in browser';
+        prevBtn.onclick = () => showPreview(code, prevBtn, wrapper);
+        wrapper.appendChild(prevBtn);
+      }
+
+      el.parentElement.replaceWith(wrapper);
+    });
+
+    return div;
+  }
+
+  function showPreview(htmlCode, btn, wrapper) {
+    const existing = wrapper.querySelector('.preview-panel');
+    if (existing) { existing.remove(); btn.textContent = '▶ preview in browser'; return; }
+
+    const panel = document.createElement('div');
+    panel.className = 'preview-panel';
+
+    const ph = document.createElement('div');
+    ph.className = 'preview-header';
+
+    const pl = document.createElement('span');
+    pl.className = 'preview-label';
+    pl.textContent = 'live preview';
+
+    const cb = document.createElement('button');
+    cb.className = 'preview-close';
+    cb.textContent = '✕';
+    cb.onclick = () => { panel.remove(); btn.textContent = '▶ preview in browser'; };
+
+    ph.appendChild(pl);
+    ph.appendChild(cb);
+
+    const frame = document.createElement('iframe');
+    frame.className = 'preview-frame';
+    frame.sandbox = 'allow-scripts allow-same-origin';
+
+    panel.appendChild(ph);
+    panel.appendChild(frame);
+    wrapper.appendChild(panel);
+    btn.textContent = '◼ hide preview';
+
+    frame.srcdoc = htmlCode;
+    scrollBottom();
   }
 
   function addUserMsg(text) {
@@ -460,15 +351,12 @@
   }
 
   function addTyping(id, label) {
+    removeEmpty();
     const m = document.getElementById('messages');
     const d = document.createElement('div');
     d.id = id;
     d.className = 'msg assistant';
-    d.innerHTML = `
-      <div class="step-label">⚙ ${label}</div>
-      <div class="typing">
-        <div class="typing-dots"><span></span><span></span><span></span></div>
-      </div>`;
+    d.innerHTML = `<div class="typing-row"><div class="typing-dots"><span></span><span></span><span></span></div><span>${label}</span></div>`;
     m.appendChild(d);
     scrollBottom();
   }
@@ -481,53 +369,41 @@
     const d = document.createElement('div');
     d.className = 'msg assistant';
 
-    let metaHtml = `<div class="msg-meta">`;
-    if (saved > 0) metaHtml += `<span class="opt-tag">optimized</span>`;
-    metaHtml += `<span>${optTok} tokens</span>`;
-    if (saved > 0) metaHtml += `<span class="saved-tag">saved ${saved}</span>`;
-    metaHtml += `</div>`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.appendChild(renderMarkdown(answer));
 
-    let optHtml = '';
-    if (saved > 0 && optimized && optimized !== 'RAW') {
-      optHtml = `
-        <details>
-          <summary>see optimized prompt</summary>
-          <div class="opt-preview">${escHtml(optimized)}</div>
-        </details>`;
+    const meta = document.createElement('div');
+    meta.className = 'msg-meta';
+    if (saved > 0) meta.innerHTML += `<span class="opt-tag">optimized</span>`;
+    meta.innerHTML += `<span>${optTok} tokens</span>`;
+    if (saved > 0) meta.innerHTML += `<span class="saved-tag">↓ saved ${saved}</span>`;
+
+    d.appendChild(bubble);
+    d.appendChild(meta);
+
+    if (saved > 0 && optimized) {
+      const det = document.createElement('details');
+      det.innerHTML = `<summary>see optimized prompt</summary><div class="opt-preview">${escHtml(optimized)}</div>`;
+      d.appendChild(det);
     }
 
-    d.innerHTML = `
-      <div class="step-label">✦ Claude's answer</div>
-      <div class="bubble">${escHtml(answer)}</div>
-      ${metaHtml}
-      ${optHtml}`;
     m.appendChild(d);
     scrollBottom();
   }
 
-  function escHtml(str) {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\n/g, '<br>');
-  }
-
-  async function callProxy(system, messages, maxTokens = 800) {
-    const body = { model: MODEL, max_tokens: maxTokens, messages };
+  async function callProxy(model, system, messages, maxTokens) {
+    const body = { model, max_tokens: maxTokens, messages };
     if (system) body.system = system;
-
     const r = await fetch(PROXY, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       throw new Error(err.error?.message || `HTTP ${r.status}`);
     }
-
     const data = await r.json();
     return data.content?.find(b => b.type === 'text')?.text || '';
   }
@@ -547,18 +423,14 @@
     addUserMsg(raw);
     msgCount++;
 
-    addTyping('think-opt', 'Step 1 — optimizing your prompt...');
+    addTyping('think-opt', 'optimizing prompt...');
 
-    let optimized = raw;
-    let optTok = rawTok;
-
+    let optimized = raw, optTok = rawTok;
     try {
-      const optSys = `You are a prompt optimizer. Compress the user's message into the most token-efficient version that preserves ALL meaning and intent. Strip filler, hedging, repetition. Be direct and imperative. Return ONLY the optimized prompt text — no explanation, no preamble, nothing else.`;
-      optimized = (await callProxy(optSys, [{ role: 'user', content: raw }], 200)).trim();
-      optTok = tok(optimized);
-    } catch (e) {
-      optimized = raw;
-    }
+      const optSys = `You are a prompt optimizer. Compress the user's message into the most token-efficient version preserving ALL meaning, intent, and technical details. Remove filler, hedging, repetition. Be direct and imperative. If already concise, return it unchanged. Return ONLY the optimized prompt — no explanation.`;
+      const res = (await callProxy(OPT_MODEL, optSys, [{role:'user',content:raw}], 300)).trim();
+      if (res) { optimized = res; optTok = tok(optimized); }
+    } catch(e) {}
 
     removeEl('think-opt');
 
@@ -568,22 +440,27 @@
     updateStats();
 
     history.push({ role: 'user', content: optimized });
-
-    addTyping('think-ans', 'Step 2 — getting Claude\'s answer...');
+    addTyping('think-ans', 'thinking...');
 
     let answer = '';
     try {
-      const mainSys = `You are a helpful, concise assistant. Answer clearly and directly. Avoid padding or filler.`;
-      answer = await callProxy(mainSys, history, 800);
+      const mainSys = `You are an expert full-stack developer, designer, and AI assistant. You can build complete websites, write production-ready code in any language, explain complex topics clearly, and help with any task.
+
+When building websites or UIs: write complete, self-contained HTML with embedded CSS and JS. Make designs modern, beautiful, and responsive. Include all functionality.
+
+When writing code: write complete working code with no placeholders or TODOs. Follow best practices.
+
+Always be thorough. If asked to build something, build the whole thing.`;
+      answer = await callProxy(MAIN_MODEL, mainSys, history, 4096);
       history.push({ role: 'assistant', content: answer });
-    } catch (e) {
+    } catch(e) {
       answer = 'Something went wrong: ' + e.message;
       showError(e.message);
       history.pop();
     }
 
     removeEl('think-ans');
-    addAssistantMsg(answer, optimized, rawTok, optTok);
+    addAssistantMsg(answer, optimized !== raw ? optimized : null, rawTok, optTok);
 
     busy = false;
     document.getElementById('sendBtn').disabled = false;
